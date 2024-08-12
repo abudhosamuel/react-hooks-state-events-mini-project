@@ -1,14 +1,14 @@
 import React, { useState } from "react";
 
-function NewTaskForm({ categories, onTaskFormSubmit }) {
+function NewTaskForm(props) {
   const [text, setText] = useState("");
-  const [category, setCategory] = useState(categories[0]);
+  const [category, setCategory] = useState(props.categories[0]);
 
   function handleSubmit(e) {
     e.preventDefault();
-    onTaskFormSubmit({ text, category });
+    props.onTaskFormSubmit({ text: text, category: category });
     setText("");
-    setCategory(categories[0]);
+    setCategory(props.categories[0]);
   }
 
   return (
@@ -19,7 +19,7 @@ function NewTaskForm({ categories, onTaskFormSubmit }) {
           type="text" 
           name="text" 
           value={text}
-          onChange={(e) => setText(e.target.value)}
+          onChange={function(e) { setText(e.target.value); }}
         />
       </label>
       <label>
@@ -27,13 +27,15 @@ function NewTaskForm({ categories, onTaskFormSubmit }) {
         <select 
           name="category" 
           value={category}
-          onChange={(e) => setCategory(e.target.value)}
+          onChange={function(e) { setCategory(e.target.value); }}
         >
-          {categories.map(category => (
-            <option key={category} value={category}>
-              {category}
-            </option>
-          ))}
+          {props.categories.map(function(category) {
+            return (
+              <option key={category} value={category}>
+                {category}
+              </option>
+            );
+          })}
         </select>
       </label>
       <input type="submit" value="Add task" />
